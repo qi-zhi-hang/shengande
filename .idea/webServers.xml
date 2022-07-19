@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="91544968-2a74-41cc-8f9e-48719e10f588" name="shengande">
+        <fileTransfer rootFolder="/www/wwwroot/html.zhangjunbai.com" accessType="SFTP" host="39.105.98.74" port="22" sshConfigId="1a6e91c2-610b-4ff8-99c6-882090705645" sshConfig="root@39.105.98.74:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
