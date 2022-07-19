@@ -1,3 +1,4 @@
 {
-    "password or account is empty": "账号或密码错误"
+    "password or account is empty": "账号或密码错误",
+    "param is error": "参数错误"
 }

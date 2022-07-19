@@ -19,3 +19,6 @@ use Illuminate\Http\Request;
 
 
 Route::post("login",'v1\Admin@login');
+
+
+Route::post("add_admin",'v1\Admin@addAdmin')->middleware("check_login");
