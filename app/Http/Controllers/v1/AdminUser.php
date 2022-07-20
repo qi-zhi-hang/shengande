@@ -6,10 +6,16 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Service\AdminService;
+use Illuminate\Support\Facades\Redis;
 
 class AdminUser extends Controller
 {
-
+    public $adminService = null;
+    const ERROR_LOGIN_OUT_TIME = 3600;
+    public function __construct()
+    {
+        $this->adminService = new AdminService();
+    }
 
     /**
      * management login
@@ -17,12 +23,23 @@ class AdminUser extends Controller
      */
     public function login()
     {
+
         $userName = request()->post("user_name");
-        $password = request()->post("pwd");
+        $password = request()->post("password");
         if(empty($userName) || empty($password)){
             return  $this->error(__("password or account is empty"));
         }
-        return $this->error("参数错误",['pwd'=>$password,'user_name'=>$userName]);
+        $loginErrNum = Redis::get($userName);
+        if($loginErrNum >=3){
+            return  $this->error(__("login error num"));
+        }
+        $token = $this->adminService->checkUserPwd($userName,$password);
+        if($token === false){
+            Redis::incr($userName);
+            Redis::expire($userName,self::ERROR_LOGIN_OUT_TIME);
+            return $this->error(__("login error"));
+        }
+        return $this->success(__("login success"),['token'=> $token]);
     }
 
     /**

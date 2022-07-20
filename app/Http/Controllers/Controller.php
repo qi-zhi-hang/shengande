@@ -6,10 +6,20 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Redis;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public $uid =  0;
+
+    public function __construct(){
+        $token = request()->header("token");
+        if($token){
+            $this->uid = Redis::get("token") ?? 0;
+        }
+    }
 
     /**
      * response data

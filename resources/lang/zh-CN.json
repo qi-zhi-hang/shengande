@@ -1,5 +1,8 @@
 {
     "password or account is empty": "账号或密码错误",
     "param is error": "参数错误",
-    "password rule": "登陆密码需要包含数字、字母、特殊符号任意两种组合且6位以上"
+    "password rule": "登陆密码需要包含数字、字母、特殊符号任意两种组合且6位以上",
+    "login error": "登陆失败，请检查账号密码",
+    "login success": "登陆成功",
+    "login error num": "登陆错误超过三次，请一小时后再进行登陆"
 }
