@@ -120,4 +120,49 @@ class AdminService extends Service
         }
         return  ['list'=>$list,'count'=>$data['count']];
     }
+
+    /**
+     * get one account  detail
+     * @param $id
+     * @return array|\Illuminate\Database\Query\Builder|mixed
+     */
+    public function getOneInfo($id,$uid)
+    {
+        $info = $this->adminModel->getOneInfo(['id'=>$id,'status'=>1]);
+        if($id  == $uid){
+            return  $info;
+        }
+
+        $ownInfo = $this->adminModel->getOneInfo(['id'=>$uid,'status'=>1]);
+        $promiseLevelOwn  = $this->adminGroupModel->getOneInfo(['id'=>$ownInfo['group_id']]);
+        $promiseLevelOther  = $this->adminGroupModel->getOneInfo(['id'=>$info['group_id']]);
+
+        if($promiseLevelOwn['permission_num'] < $promiseLevelOther['permission_num']){
+            return false;
+        }
+
+        return  $ownInfo;
+    }
+
+    public function delOneAccount($id,$uid)
+    {
+        $info = $this->adminModel->getOneInfo(['id'=>$id,'status'=>1]);
+        if(empty($info)){
+            return  false;
+        }
+
+        $ownInfo = $this->adminModel->getOneInfo(['id'=>$uid,'status'=>1]);
+        if(empty($ownInfo)){
+            return  false;
+        }
+        $promiseLevelOwn  = $this->adminGroupModel->getOneInfo(['id'=>$ownInfo['group_id']]);
+        $promiseLevelOther  = $this->adminGroupModel->getOneInfo(['id'=>$info['group_id']]);
+
+        if($promiseLevelOwn['permission_num'] < $promiseLevelOther['permission_num']){
+            return false;
+        }
+
+        return $this->adminModel->updateAdmin($id,['status'=>0,'updated_at'=>date("Y-m-d H:i:s")]);
+
+    }
 }

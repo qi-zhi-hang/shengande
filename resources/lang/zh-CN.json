@@ -8,5 +8,7 @@
     "insert success": "新增成功",
     "insert error": "新增失败",
     "get error": "获取失败",
-    "get success": "获取成功"
+    "get success": "获取成功",
+    "del success": "删除成功",
+    "del error": "删除失败"
 }

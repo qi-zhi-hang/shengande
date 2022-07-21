@@ -58,4 +58,11 @@ class Admin extends Model
         return ['list'=>$list,'count'=>$count];
 
     }
+
+    public function updateAdmin($id,$data){
+        if(empty($id)  || empty($data)){
+            return false;
+        }
+        return  DB::table($this->table)->where(['id'=>$id])->update($data);
+    }
 }

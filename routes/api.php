@@ -25,6 +25,8 @@ Route::group([
     'middleware'=>'check_login'
 ],function (){
     Route::post("add_admin",'v1\AdminUser@addAdmin');
-    Route::post("admin_list",'v1\AdminUser@getUserList');;
+    Route::post("admin_list",'v1\AdminUser@getUserList');
+    Route::post("admin_info",'v1\AdminUser@viewAdminUser');
+    Route::post("del_info",'v1\AdminUser@delAccount');
 });
 

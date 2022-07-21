@@ -88,4 +88,40 @@ class AdminUser extends Controller
         return $this->success(__("get success"),$list);
     }
 
+
+    /**
+     * get  a detail account infomation
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function viewAdminUser(){
+        $id =  request()->post("uid");
+        if(empty($id) || $id <= 0){
+            return $this->error(__("param is error"));
+        }
+
+        $info = $this->adminService->getOneInfo($id,$this->uid);
+        if(empty($info)){
+            return $this->error(__("get error"));
+        }
+        return  $this->success("get success",['data'=>$info]);
+    }
+
+    public function delAccount()
+    {
+
+        $id =  request()->post("uid");
+        if(empty($id) || $id <= 0){
+            return $this->error(__("param is error"));
+        }
+
+        $result = $this->adminService->delOneAccount($id,$this->uid);
+
+        if(!$result){
+            return $this->error(__("del error"));
+        }
+
+        return  $this->success(__("del success"));
+
+    }
+
 }
