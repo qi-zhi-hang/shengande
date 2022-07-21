@@ -41,4 +41,21 @@ class Admin extends Model
         ];
         return DB::table($this->table)->insert($insertData);
     }
+
+    public function getAdminList($where = [],$start = 0,$size = 10){
+        $list =  DB::table("{$this->table} as a")
+            ->select("a.id","a.admin_name","a.admin_password","a.created_at","a.status","g.group_name")
+            ->leftJoin("sad_admin_group as g","a.group_id","=","g.id")
+            ->where($where)
+            ->limit($size)
+            ->get();
+        $count = DB::table("{$this->table} as a")
+            ->select("a.id","a.admin_name","a.admin_password","a.created_at","a.status","g.group_name")
+            ->leftJoin("sad_admin_group as g","a.group_id","=","g.id")
+            ->where($where)
+            ->count();
+
+        return ['list'=>$list,'count'=>$count];
+
+    }
 }

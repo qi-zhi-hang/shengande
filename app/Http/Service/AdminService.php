@@ -14,9 +14,11 @@ class AdminService extends Service
 {
 
     public  $adminModel = null;
+    public  $adminGroupModel =  null;
     const LOGIN_OUT_TIME  =  7*24*3600;
     public function __construct(){
         $this->adminModel = new Admin();
+        $this->adminGroupModel =  new AdminGroup();
     }
 
     public function addAdminUser($userName,$password,$groupId)
@@ -78,5 +80,44 @@ class AdminService extends Service
         }
         return  false;
 
+    }
+
+    /**
+     * get user list
+     * @param $page
+     * @param $pageSize
+     * @param $uid
+     * @param string $adminName
+     * @return array
+     */
+    public function getAdminList($page,$pageSize,$uid,string  $adminName='')
+    {
+
+        if(!is_numeric($page) || !is_numeric($pageSize)){
+            return  [];
+        }
+        $start  = ($page - 1)*$pageSize;
+        $where[] = ['a.status','=',1];
+        if($adminName){
+            $where[] = ['a.admin_name','like',"%{$adminName}%"];
+        }
+        $adminInfo = $this->adminModel->getOneInfo(['id'=>$uid,'status'=>1]);
+        if(empty($adminInfo)){
+            return  [];
+        }
+        $groupInfo = $this->adminGroupModel->getOneInfo(['id'=>$adminInfo['group_id']]);
+
+        if($groupInfo['permission_num'] <= 0){
+            return  [];
+        }
+        $where[] = ['g.permission_num','>=',$groupInfo['permission_num']];
+
+        $data =  $this->adminModel->getAdminList($where,$start,$pageSize);
+
+        $list = $data['list'];
+        if(empty($list)){
+            return  [];
+        }
+        return  ['list'=>$list,'count'=>$data['count']];
     }
 }

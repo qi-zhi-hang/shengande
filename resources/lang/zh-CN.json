@@ -4,5 +4,9 @@
     "password rule": "登陆密码需要包含数字、字母、特殊符号任意两种组合且6位以上",
     "login error": "登陆失败，请检查账号密码",
     "login success": "登陆成功",
-    "login error num": "登陆错误超过三次，请一小时后再进行登陆"
+    "login error num": "登陆错误超过三次，请一小时后再进行登陆",
+    "insert success": "新增成功",
+    "insert error": "新增失败",
+    "get error": "获取失败",
+    "get success": "获取成功"
 }

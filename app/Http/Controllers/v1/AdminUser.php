@@ -26,6 +26,7 @@ class AdminUser extends Controller
 
         $userName = request()->post("user_name");
         $password = request()->post("password");
+
         if(empty($userName) || empty($password)){
             return  $this->error(__("password or account is empty"));
         }
@@ -67,6 +68,24 @@ class AdminUser extends Controller
         }catch (\Exception $exception){
             return $this->error($exception->getMessage(),[]);
         }
+    }
+
+    /**
+     * Get user list
+     */
+    public function getUserList()
+    {
+        $page = request()->post("page",1);
+        $pageSize = request()->post("page_size",10);
+        $adminName = request()->post("admin_name");
+
+        $list = $this->adminService->getAdminList($page,$pageSize,$this->uid,$adminName);
+
+        if(!$list){
+            return $this->error(__("get error"));
+        }
+
+        return $this->success(__("get success"),$list);
     }
 
 }

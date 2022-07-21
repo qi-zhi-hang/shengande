@@ -19,11 +19,12 @@ use Illuminate\Http\Request;
 
 
 Route::post("login",'v1\AdminUser@login');
-Route::post("add_admin",'v1\AdminUser@addAdmin');
+
 
 Route::group([
     'middleware'=>'check_login'
 ],function (){
-    //Route::post("add_admin",'v1\AdminUser@addAdmin');
+    Route::post("add_admin",'v1\AdminUser@addAdmin');
+    Route::post("admin_list",'v1\AdminUser@getUserList');;
 });
 
